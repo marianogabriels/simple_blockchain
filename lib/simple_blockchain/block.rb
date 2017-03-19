@@ -16,14 +16,7 @@ class Block
   end
 
   def mining
-    @nonce = SecureRandom.hex
-    calculate_hash
-    if valid_hash?(hash)
-      return hash
-    else
-      mining
-    end
-    #return nonce
+    Miner.new(self).perform!
   end
 
   def valid_hash?(vhash)
