@@ -19,6 +19,13 @@ class Block
     Miner.new(self).perform!
   end
 
+  def valid?
+    return false unless nonce
+    return false unless hash
+    return false unless valid_hash?(hash)
+    return true
+  end
+
   def valid_hash?(vhash)
     SimpleBlockchain::DIFFICULTY.times do |n| 
       unless vhash[n] == "0"
