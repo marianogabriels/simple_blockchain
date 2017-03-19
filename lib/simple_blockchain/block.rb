@@ -18,7 +18,7 @@ class Block
   def mining
     @nonce = SecureRandom.hex
     calculate_hash
-    if mined?(hash)
+    if valid_hash?(hash)
       return hash
     else
       mining
@@ -26,7 +26,7 @@ class Block
     #return nonce
   end
 
-  def mined?(vhash)
+  def valid_hash?(vhash)
     SimpleBlockchain::DIFFICULTY.times do |n| 
       unless vhash[n] == "0"
         return false

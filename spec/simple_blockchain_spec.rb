@@ -29,13 +29,13 @@ describe Block do
 
     it '#mining' do
       block.mining
-      expect(block.mined?(block.hash)).to eq(true)
+      expect(block.valid_hash?(block.hash)).to eq(true)
     end
 
-    it '#mined?' do
-      expect(block.mined?("0000242208512629a13fad6d63ceeaeb9cee37f950b9f1f41d4a2713fbb0778b")).to eq(true)
-      expect(block.mined?("0130242208512629a13fad6d63ceeaeb9cee37f950b9f1f41d4a2713fbb0778b")).to eq(true)
-      expect(block.mined?("9348242208512629a13fad6d63ceeaeb9cee37f950b9f1f41d4a2713fbb0778b")).to eq(false)
+    it '#valid_hash?' do
+      expect(block.valid_hash?("0000242208512629a13fad6d63ceeaeb9cee37f950b9f1f41d4a2713fbb0778b")).to eq(true)
+      expect(block.valid_hash?("0130242208512629a13fad6d63ceeaeb9cee37f950b9f1f41d4a2713fbb0778b")).to eq(true)
+      expect(block.valid_hash?("9348242208512629a13fad6d63ceeaeb9cee37f950b9f1f41d4a2713fbb0778b")).to eq(false)
     end
   end
 end
