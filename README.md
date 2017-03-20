@@ -1,4 +1,4 @@
-# SimpleBlockchain
+# SimpleBlockchain [![Build Status](https://travis-ci.org/marianogabriels/simple_blockchain.svg?branch=master)](https://travis-ci.org/marianogabriels/simple_blockchain)
 
 ## Contributing
 
