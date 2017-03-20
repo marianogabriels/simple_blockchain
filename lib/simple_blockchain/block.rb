@@ -12,7 +12,15 @@ class Block
   end
 
   def calculate_hash
-    @hash = Digest::SHA256.hexdigest(data.to_s + index.to_s + prev.to_s + timestamp.to_s + nonce.to_s)
+    @hash = Digest::SHA256.hexdigest(hash_fields.join)
+  end
+
+  def hash_fields
+    fields = [ data , index , prev , timestamp , nonce ]
+    if fields.any?{ |e| e.nil? }
+      raise "hash field no given #{fields.inspect}"
+    end
+    fields
   end
 
   def mining
@@ -20,13 +28,14 @@ class Block
   end
 
   def valid?
-    return false unless nonce
-    return false unless hash
+    return false if hash_fields.any?{|e| e.nil?}
     return false unless valid_hash?(hash)
     return true
   end
 
   def valid_hash?(vhash)
+    return false unless vhash
+    return false unless Digest::SHA256.hexdigest(hash_fields.join) == vhash
     SimpleBlockchain::DIFFICULTY.times do |n| 
       unless vhash[n] == "0"
         return false
