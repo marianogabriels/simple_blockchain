@@ -15,12 +15,12 @@ class Block
     Digest::SHA256.hexdigest(hash_fields.join)
   end
 
+  def header
+    [ index , prev , timestamp , nonce ]
+  end
+
   def hash_fields
-    fields = [ data , index , prev , timestamp , nonce ]
-    if fields.any?{ |e| e.nil? }
-      raise "hash field no given #{fields.inspect}"
-    end
-    fields
+    [ data  ]  + header
   end
 
   def mining
@@ -28,13 +28,17 @@ class Block
   end
 
   def valid?
-    return false if hash_fields.any?{|e| e.nil?}
+    return false unless valid_header?
     return false unless valid_hash?
     return true
   end
 
+  def valid_header?
+    !(header.any?{|e| e.nil?})
+  end
+
   def valid_hash?
-    return false unless nonce
+    return false unless valid_header?
     return false unless hash
     return false unless Digest::SHA256.hexdigest(hash_fields.join) == hash
     SimpleBlockchain::DIFFICULTY.times do |n| 
