@@ -26,14 +26,13 @@ describe Block do
     it '#mining' do
       block.mining
       puts block.nonce
-      expect(block.valid_hash?(block.hash)).to eq(true)
+      expect(block.valid_hash?).to eq(true)
     end
 
     it '#valid_hash?' do
+      expect(block.valid_hash?).to eq(false)
       block.mining
-      expect(block.valid_hash?("0000242208512629a13fad6d63ceeaeb9cee37f950b9f1f41d4a2713fbb0778b")).to eq(false)
-      expect(block.valid_hash?("0130242208512629a13fad6d63ceeaeb9cee37f950b9f1f41d4a2713fbb0778b")).to eq(false)
-      expect(block.valid_hash?("096b46474f82507f65b7fe6d390431a2f8fe1fb8180b56b3cb4bf31ef3c11f29")).to eq(true)
+      expect(block.valid_hash?).to eq(true)
     end
   end
 end

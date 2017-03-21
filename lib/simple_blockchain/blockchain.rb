@@ -11,6 +11,7 @@ class Blockchain
     block = Block.new(data: data)
     block.prev = blocks[-1].hash
     block.index = blocks.count
+    block.blockchain = self
     @blocks << block
   end
 end

@@ -26,5 +26,9 @@ describe Blockchain do
 
     it 'block.valid? when prev block is invalid' do
     end
+
+    it 'should assign blockchain to block' do
+      expect(blockchain.blocks[1].blockchain).to_not eq(nil)
+    end
   end
 end

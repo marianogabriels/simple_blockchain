@@ -1,6 +1,6 @@
 require 'securerandom'
 class Block
-  attr_accessor :data,:index,:prev,:hash,:data,:timestamp,:nonce
+  attr_accessor :data,:index,:prev,:data,:timestamp,:nonce,:blockchain
 
   def initialize(args={})
     @data = args[:data]
@@ -11,8 +11,8 @@ class Block
     @data = args[:data]
   end
 
-  def calculate_hash
-    @hash = Digest::SHA256.hexdigest(hash_fields.join)
+  def hash
+    Digest::SHA256.hexdigest(hash_fields.join)
   end
 
   def hash_fields
@@ -29,15 +29,16 @@ class Block
 
   def valid?
     return false if hash_fields.any?{|e| e.nil?}
-    return false unless valid_hash?(hash)
+    return false unless valid_hash?
     return true
   end
 
-  def valid_hash?(vhash)
-    return false unless vhash
-    return false unless Digest::SHA256.hexdigest(hash_fields.join) == vhash
+  def valid_hash?
+    return false unless nonce
+    return false unless hash
+    return false unless Digest::SHA256.hexdigest(hash_fields.join) == hash
     SimpleBlockchain::DIFFICULTY.times do |n| 
-      unless vhash[n] == "0"
+      unless hash[n] == "0"
         return false
       end
     end
