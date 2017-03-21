@@ -41,11 +41,6 @@ class Block
     return false unless valid_header?
     return false unless hash
     return false unless Digest::SHA256.hexdigest(hash_fields.join) == hash
-    SimpleBlockchain::DIFFICULTY.times do |n| 
-      unless hash[n] == "0"
-        return false
-      end
-    end
-    return true
+    hash.start_with? SimpleBlockchain::DIFFICULTY.times.map{|e| '0'}.join
   end
 end
