@@ -24,6 +24,11 @@ describe Blockchain do
     end
 
     it 'block.valid? when prev block is invalid' do
+      blockchain.blocks.each{|block| block.mining}
+      genesis = blockchain.blocks[0]
+      genesis.data = 'Changed'
+      expect(blockchain.blocks[0].valid?).to eq(false)
+      expect(blockchain.blocks[1].valid?).to eq(false)
     end
 
     it 'should assign blockchain to block' do

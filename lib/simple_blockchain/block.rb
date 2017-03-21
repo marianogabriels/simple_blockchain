@@ -11,6 +11,15 @@ class Block
     @data = args[:data]
   end
 
+  def prev
+    return @prev if @prev
+    last_block.hash
+  end
+
+  def last_block
+    blockchain.blocks[index - 1]
+  end
+
   def hash
     Digest::SHA256.hexdigest(hash_fields.join)
   end
@@ -41,6 +50,9 @@ class Block
     return false unless valid_header?
     return false unless hash
     return false unless Digest::SHA256.hexdigest(hash_fields.join) == hash
+    if blockchain
+      return false if prev != last_block.hash
+    end
     hash.start_with? SimpleBlockchain::DIFFICULTY.times.map{|e| '0'}.join
   end
 end
