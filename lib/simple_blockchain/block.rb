@@ -4,20 +4,31 @@ class Block
 
   def initialize(args={})
     @data = args[:data]
-    @index = args[:index]
-    @prev = args[:prev]
     @timestamp = args[:timestamp]
-    @hash = args[:hash]
-    @data = args[:data]
+    @blockchain = args[:blockchain]
+    raise "no blockchain given" unless @blockchain
+    @blockchain.blocks << self unless blockchain.blocks.any?{|bb| bb == self } 
+    @index = @blockchain.blocks.count - 1
+  end
+
+  def genesis?
+    index == 0
   end
 
   def prev
-    return @prev if @prev
-    last_block.hash
+    return 0 if self.genesis?
+    return 0 unless last_block
+    return last_block.hash
   end
 
   def last_block
+    return nil if genesis?
+    raise "no blockchain given" unless blockchain
     blockchain.blocks[index - 1]
+  end
+
+  def next_block
+    blockchain.blocks[index + 1]
   end
 
   def hash
@@ -37,20 +48,13 @@ class Block
   end
 
   def valid?
-    return false unless valid_header?
     return false unless valid_hash?
     return true
   end
 
-  def valid_header?
-    !(header.any?{|e| e.nil?})
-  end
-
   def valid_hash?
-    return false unless valid_header?
-    return false unless hash
     return false unless Digest::SHA256.hexdigest(hash_fields.join) == hash
-    if blockchain
+    if last_block != nil
       return false if prev != last_block.hash
     end
     hash.start_with? SimpleBlockchain::DIFFICULTY.times.map{|e| '0'}.join

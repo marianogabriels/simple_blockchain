@@ -11,6 +11,9 @@ class Miner
       try_with_nonce(@counter)
       @counter+=@counter
     end
+    if block.blockchain 
+      block.next_block.prev = block.hash if block.next_block
+    end
   end
 
   def try_with_nonce(nonce)

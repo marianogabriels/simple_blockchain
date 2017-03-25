@@ -6,12 +6,10 @@ require 'simple_blockchain/blockchain'
 
 module SimpleBlockchain
   DIFFICULTY = 1
-  # Your code goes here...
-  def self.genesis_block
-    Block.new(index: 1,
-              prev: 0,
-              timestamp: 1489908099,
-              data: "genesis"
+  def self.genesis_block(blockchain)
+    Block.new(timestamp: 1489908099,
+              data: "genesis",
+              blockchain: blockchain
              )
   end
 end

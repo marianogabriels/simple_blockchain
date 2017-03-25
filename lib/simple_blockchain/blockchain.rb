@@ -1,17 +1,15 @@
 class Blockchain
   attr_accessor :blocks
 
-  def initialize
+  def initialize(opts={})
     @blocks = []
-    @blocks << SimpleBlockchain.genesis_block
-    @blocks[0].mining
+    unless opts[:no_genesis]
+      SimpleBlockchain.genesis_block(self)
+      @blocks[0].mining
+    end
   end
 
   def add_block(data)
-    block = Block.new(data: data)
-    block.prev = blocks[-1].hash
-    block.index = blocks.count
-    block.blockchain = self
-    @blocks << block
+    Block.new(data: data,blockchain: self)
   end
 end

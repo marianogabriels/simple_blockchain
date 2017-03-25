@@ -8,13 +8,17 @@ end
 
 describe Block do
   describe 'initialize' do
-    let!(:block){Block.new(index: 1,prev: 0,timestamp: 1489908099,data: "genesis")}
+    let!(:blockchain){ Blockchain.new(no_genesis: true) }
+    let!(:block){Block.new(prev: 0,timestamp: 1489908099,data: "genesis",blockchain: blockchain)}
+
     it '#index' do
-      expect(block.index).to eq(1)
+      expect(block.index).to eq(0)
     end
-    it '#prev' do
+
+    it '#prev',focus: true do
       expect(block.prev).to eq(0)
     end
+
     it '#timestamp' do
       expect(block.timestamp).to eq(1489908099)
     end
@@ -25,7 +29,6 @@ describe Block do
 
     it '#mining' do
       block.mining
-      puts block.nonce
       expect(block.valid_hash?).to eq(true)
     end
 
