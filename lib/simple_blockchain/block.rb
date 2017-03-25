@@ -16,14 +16,12 @@ class Block
   end
 
   def prev
-    return 0 if self.genesis?
     return 0 unless last_block
     return last_block.hash
   end
 
   def last_block
     return nil if genesis?
-    raise "no blockchain given" unless blockchain
     blockchain.blocks[index - 1]
   end
 
@@ -53,10 +51,6 @@ class Block
   end
 
   def valid_hash?
-    return false unless Digest::SHA256.hexdigest(hash_fields.join) == hash
-    if last_block != nil
-      return false if prev != last_block.hash
-    end
     hash.start_with? SimpleBlockchain::DIFFICULTY.times.map{|e| '0'}.join
   end
 end
