@@ -1,4 +1,5 @@
 require 'securerandom'
+require 'json'
 class Block
   attr_accessor :data,:index,:prev,:data,:timestamp,:nonce,:blockchain
 
@@ -9,6 +10,17 @@ class Block
     raise "no blockchain given" unless @blockchain
     @blockchain.blocks << self unless blockchain.blocks.any?{|bb| bb == self } 
     @index = @blockchain.blocks.count - 1
+  end
+
+  def to_hash
+    {
+      data: @data,
+      timestamp: timestamp,
+      hash: hash,
+      prev: prev,
+      nonce: nonce,
+      index: index
+    }
   end
 
   def genesis?
