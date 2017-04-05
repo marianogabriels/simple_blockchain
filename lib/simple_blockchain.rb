@@ -3,6 +3,7 @@ require "simple_blockchain/version"
 require 'simple_blockchain/block'
 require 'simple_blockchain/miner'
 require 'simple_blockchain/blockchain'
+require 'simple_blockchain/connection_handler'
 
 module SimpleBlockchain
   DIFFICULTY = 1
