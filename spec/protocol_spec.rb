@@ -1,9 +1,19 @@
 require 'spec_helper'
 
-describe Protocol do
-  it do
-    expect(MessagePack.unpack(Protocol.pkt('ping'))['magick']).to eq('SB')
+def unpack(pkt)
+  MessagePack.unpack(pkt)
+end
+describe Protocol::Pkt do
+  it 'magick should be SimpleBlockchain' do
+    expect(unpack(described_class.build('ping'))['magick']).
+      to eq('SimpleBlockchain')
+  end
+
+  it '.ping' do
+    expect(unpack(described_class.ping)['payload']).to be_truthy
+  end
+
+  it '.pong' do
+    expect(unpack(described_class.pong('hola'))['payload']).to eq('hola')
   end
 end
-
-
