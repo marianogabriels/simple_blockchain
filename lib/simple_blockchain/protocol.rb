@@ -24,5 +24,24 @@ module Protocol
     def self.pong(nonce)
       build("pong",nonce)
     end
+
+    class Parser
+      attr_accessor :handler
+      def initialize(handler)
+        @handler = handler
+      end
+
+      def process_pkt(pkt)
+        unpacked_pkt = MessagePack.unpack(pkt)
+        command = unpacked_pkt['command']
+        puts unpacked_pkt.inspect
+        case command
+        when 'ping'; @handler.on_ping(unpacked_pkt['payload'])
+        when 'pong'; @handler.on_pong(unpacked_pkt['payload'])
+        else
+          raise "Error unknown command #{command.inspect}"
+        end
+      end
+    end
   end
 end
