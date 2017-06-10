@@ -5,10 +5,17 @@ Based on:
  
  https://bitcoin.org/bitcoin.pdf
  
- 
-`curl -X POST -H "Accept: application/json" -d '{ "data": "Hola" }' http://localhost:9393/block`
+## Instalation & Up: 
 
-`curl -X GET -H "Accept: application/json" http://localhost:9393/blockchain/`
+`bundle install`
+
+`rackup`
+
+##Getting started
+ 
+`curl -X POST -H "Accept: application/json" -d '{ "data": "Block body" }' http://localhost:9292/block`
+
+`curl -X GET -H "Accept: application/json" http://localhost:9292/blockchain/`
 
 
 ## Contributing
