@@ -4,21 +4,24 @@ PATH
     simple_blockchain (0.1.0)
       msgpack
       sinatra
+      thin
 
 GEM
   remote: https://rubygems.org/
   specs:
     coderay (1.1.1)
+    daemons (1.2.4)
     diff-lcs (1.3)
     eventmachine (1.2.3)
     method_source (0.8.2)
     msgpack (1.1.0)
+    mustermann (1.0.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    rack (1.6.5)
-    rack-protection (1.5.3)
+    rack (2.0.3)
+    rack-protection (2.0.0)
       rack
     rake (10.5.0)
     rspec (3.5.0)
@@ -34,11 +37,16 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
-    sinatra (1.4.8)
-      rack (~> 1.5)
-      rack-protection (~> 1.4)
-      tilt (>= 1.3, < 3)
+    sinatra (2.0.0)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.0)
+      tilt (~> 2.0)
     slop (3.6.0)
+    thin (1.7.1)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0, >= 1.0.4)
+      rack (>= 1, < 3)
     tilt (2.0.7)
 
 PLATFORMS

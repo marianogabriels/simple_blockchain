@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "simple_blockchain"
+require 'socket'
+
+class PingHandler < EventMachine::Connection
+  def post_init
+    puts "initialized"
+    send_data Protocol::Pkt.ping
+  end
+
+  def receive_data(data)
+    p MessagePack.unpack(data)
+  end
+end
+
+
+EventMachine.run {
+  EventMachine::connect '127.0.0.1', 8393, PingHandler
+}
