@@ -38,6 +38,7 @@ module Protocol
         case command
         when 'ping'; @handler.on_ping(unpacked_pkt['payload'])
         when 'pong'; @handler.on_pong(unpacked_pkt['payload'])
+        when 'new_block'; @handler.on_new_block(unpacked_pkt['payload'])
         else
           raise "Error unknown command #{command.inspect}"
         end

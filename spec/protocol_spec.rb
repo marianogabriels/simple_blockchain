@@ -40,3 +40,12 @@ describe 'Protocol::Parser (ping/pong)' do
     expect(parser.handler.nonce).to_not eq(nil)
   end
 end
+
+describe 'Connection' do
+  it 'should assign peers' do
+    ENV['PEERS'] = 'app.example.com:3000'
+    expect(SimpleBlockchain::Connection.peers[0].port).to eq(3000)
+    ENV['PEERS'] = 'tcp://app.example.com:3000,localhost:3012'
+    expect(SimpleBlockchain::Connection.peers.count).to eq(2)
+  end
+end

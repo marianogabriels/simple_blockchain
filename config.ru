@@ -17,6 +17,8 @@ class Application < Sinatra::Base
                      )
 
     block.mining
+    SimpleBlockchain::Connection.peers.each do |peer|
+    end
   end
 end
 
@@ -26,9 +28,6 @@ def run(opts)
 
   EM.run do
 
-    server  = opts[:server] || 'thin'
-    host    = opts[:host]   || '0.0.0.0'
-    port    = opts[:port]   || '8181'
     web_app = opts[:app]
 
     dispatch = Rack::Builder.app do
@@ -37,15 +36,11 @@ def run(opts)
       end
     end
 
-    unless ['thin', 'hatetepe', 'goliath'].include? server
-      raise "Need an EM webserver, but #{server} isn't"
-    end
-
     Rack::Server.start({
       app:    dispatch,
-      server: server,
-      Host:   host,
-      Port:   port,
+      server: "thin",
+      Host:   "0.0.0.0",
+      Port:   '8181',
       signals: false,
     })
     EventMachine::start_server "127.0.0.1", 8393, SimpleBlockchain::Connection

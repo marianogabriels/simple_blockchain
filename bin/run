@@ -4,5 +4,7 @@ system("docker build . -t simple_blockchain")
 system("docker network create simple_blockchain")
 
 4.times.each do |n|
-  system("docker run -it --name simple_blockchain_#{n} --network simple_blockchain simple_blockchain")
+  system("docker stop simple_blockchain_#{n}")
+  system("docker rm -v simple_blockchain_#{n}")
+  system("docker run -it --name simple_blockchain_#{n} -d --network simple_blockchain simple_blockchain")
 end
