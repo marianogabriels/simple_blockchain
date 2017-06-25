@@ -4,8 +4,10 @@ class Block
   attr_accessor :data,:index,:prev,:data,:timestamp,:nonce,:blockchain
 
   def initialize(args={})
+    args = Hash[args.map { |k, v| [k.to_sym, v] }]
     @data = args[:data]
     @timestamp = args[:timestamp]
+    @nonce = args[:nonce]
     @blockchain = args[:blockchain] || SimpleBlockchain.blockchain
     self.index = self.blockchain.blocks.count
     raise "no blockchain given" unless @blockchain
@@ -17,7 +19,7 @@ class Block
       timestamp: timestamp,
       hash: hash,
       prev: prev,
-      nonce: nonce,
+      nonce: nonce.to_s,
       index: index
     }
   end

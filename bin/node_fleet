@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+
+def peer(container)
+  "#{container}:8393"
+end
+
+system("docker build . -t simple_blockchain")
+containers = 3.times.map do |instance_number| 
+  "simple_blockchain_#{instance_number}"
+end
+if ARGV[0] == "stop"
+  containers.each do |container| 
+    puts "stop and delete #{container}"
+    system("docker stop #{container}")
+    system("docker rm -v #{container}")
+  end
+else
+  containers.each do |container| 
+    puts "Starging #{container}"
+    peers = (containers.map{|c| peer(c)} - [ peer(container) ]).join(',')
+    system("docker run -idt -e 'PEERS=#{peers}' --name #{container} --network simple_blockchain simple_blockchain") 
+  end
+end

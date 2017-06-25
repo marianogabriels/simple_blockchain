@@ -32,7 +32,7 @@ module SimpleBlockchain
     end
 
     def on_new_block(block)
-      Block.new(block)
+      SimpleBlockchain.blockchain.sync_block(Block.new(block))
     end
 
     def on_ping(payload)

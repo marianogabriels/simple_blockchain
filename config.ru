@@ -4,18 +4,21 @@ require 'pry'
 require 'socket'
 
 class Application < Sinatra::Base
-  @@blockchain = SimpleBlockchain.blockchain
 
   get '/blocks' do
-    return @@blockchain.blocks.map{|block| block.to_hash }.to_json
+    return  SimpleBlockchain.blockchain.blocks.map{|block| block.to_hash }.to_json
   end
 
   post '/block' do
     req_body = JSON.parse request.body.read
     block = Block.new(data: req_body['data'])
     block.mining
-    SimpleBlockchain::Connection.broadcast("new_block",block.to_hash)
-    return "SimpleBlockchain"
+    if SimpleBlockchain.blockchain.sync_block(block)
+      SimpleBlockchain::Connection.broadcast("new_block",block.to_hash)
+      return "Block added"
+    else
+      return "Error when try to add block"
+    end
   end
 end
 

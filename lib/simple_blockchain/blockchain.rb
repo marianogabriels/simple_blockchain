@@ -19,6 +19,11 @@ class Blockchain
 
   #sync last block into current blockchain
   def sync_block(block)
-    block.valid?
+    if block.valid?
+      blocks << block
+    else
+      puts "Invalid block to sync"
+      false
+    end
   end
 end

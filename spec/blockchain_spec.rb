@@ -20,6 +20,7 @@ describe Blockchain do
       block = Block.new(data: "hola")
       block.mining
       expect(blockchain.sync_block(block)).to be_truthy
+      expect(blockchain.blocks.count).to eq(2)
     end
     it 'invalidates block' do
       block = Block.new(data: "hola")
