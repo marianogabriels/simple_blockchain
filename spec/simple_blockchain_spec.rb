@@ -15,8 +15,8 @@ describe Block do
       expect(block.index).to eq(0)
     end
 
-    it '#prev',focus: true do
-      expect(block.prev).to eq(0)
+    it '#prev of genesis block should be nil',focus: true do
+      expect(block.prev).to eq(nil)
     end
 
     it '#timestamp' do

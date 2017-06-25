@@ -7,9 +7,8 @@ class Block
     @data = args[:data]
     @timestamp = args[:timestamp]
     @blockchain = args[:blockchain] || SimpleBlockchain.blockchain
+    self.index = self.blockchain.blocks.count
     raise "no blockchain given" unless @blockchain
-    @blockchain.blocks << self unless blockchain.blocks.any?{|bb| bb == self } 
-    @index = @blockchain.blocks.count - 1
   end
 
   def to_hash
@@ -24,16 +23,16 @@ class Block
   end
 
   def genesis?
-    index == 0
+    index == nil
   end
 
   def prev
-    return 0 unless last_block
+    return nil unless last_block
     return last_block.hash
   end
 
   def last_block
-    return nil if genesis?
+    return nil if (index - 1) < 0 || index == 0
     blockchain.blocks[index - 1]
   end
 

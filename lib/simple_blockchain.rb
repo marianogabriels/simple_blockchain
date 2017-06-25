@@ -7,7 +7,7 @@ require 'simple_blockchain/connection_handler'
 require 'simple_blockchain/protocol'
 
 module SimpleBlockchain
-  DIFFICULTY = 1
+  DIFFICULTY = 2
 
   def self.blockchain
     @blockchain ? @blockchain : @blockchain = Blockchain.new
@@ -16,6 +16,7 @@ module SimpleBlockchain
   def self.genesis_block(blockchain)
     Block.new(timestamp: 1489908099,
               data: "genesis",
+              index: 0,
               blockchain: blockchain
              )
   end
