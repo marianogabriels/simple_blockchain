@@ -17,6 +17,7 @@ class Application < Sinatra::Base
                      )
 
     block.mining
+    binding.pry
     SimpleBlockchain::Connection.peers.each do |peer|
     end
   end
@@ -40,10 +41,10 @@ def run(opts)
       app:    dispatch,
       server: "thin",
       Host:   "0.0.0.0",
-      Port:   '8181',
+      Port:   ENV['SERVER_PORT'] || '8181',
       signals: false,
     })
-    EventMachine::start_server "127.0.0.1", 8393, SimpleBlockchain::Connection
+    EventMachine::start_server "127.0.0.1", ENV['NODE_PORT'] || 8393, SimpleBlockchain::Connection
   end
 end
 

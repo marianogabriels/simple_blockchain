@@ -8,8 +8,17 @@ module SimpleBlockchain
       @parser = Protocol::Pkt::Parser.new(self)
     end
 
-    def self.peers
-      ENV['PEERS'].split(',').map{|uri| URI(uri).port == nil ? URI('tcp://' + uri) : URI(uri) }
+    def self.peers(node_addreses)
+      if @peers.nil?
+        node_addreses.split(',').map{|uri| URI('tcp://' + uri) }.map do |uri|
+          begin
+            Socket.tcp(uri.hostname,uri.port)
+          rescue => err
+            Logger.info("cannot create connection with #{uri.inspect} : #{err.inspect}")
+            nil
+          end
+        end.compact
+      end
     end
 
     def post_init

@@ -14,4 +14,8 @@ module SimpleBlockchain
               blockchain: blockchain
              )
   end
+  module SimpleBlockchain::Logger
+    def self.info(message)
+    end
+  end
 end
