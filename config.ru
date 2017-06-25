@@ -4,7 +4,7 @@ require 'pry'
 require 'socket'
 
 class Application < Sinatra::Base
-  @@blockchain = Blockchain.new
+  @@blockchain = SimpleBlockchain.blockchain
 
   get '/blocks' do
     return @@blockchain.blocks.map{|block| block.to_hash }.to_json
@@ -12,14 +12,10 @@ class Application < Sinatra::Base
 
   post '/block' do
     req_body = JSON.parse request.body.read
-    block = Block.new(data: req_body['data'],
-                      blockchain: @@blockchain
-                     )
-
+    block = Block.new(data: req_body['data'])
     block.mining
-    binding.pry
-    SimpleBlockchain::Connection.peers.each do |peer|
-    end
+    SimpleBlockchain::Connection.broadcast("new_block",block.to_hash)
+    return "SimpleBlockchain"
   end
 end
 

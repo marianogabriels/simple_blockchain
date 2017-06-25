@@ -6,7 +6,7 @@ class Block
   def initialize(args={})
     @data = args[:data]
     @timestamp = args[:timestamp]
-    @blockchain = args[:blockchain]
+    @blockchain = args[:blockchain] || SimpleBlockchain.blockchain
     raise "no blockchain given" unless @blockchain
     @blockchain.blocks << self unless blockchain.blocks.any?{|bb| bb == self } 
     @index = @blockchain.blocks.count - 1
