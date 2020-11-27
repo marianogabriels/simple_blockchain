@@ -1,5 +1,6 @@
 require 'securerandom'
 require 'json'
+require 'digest'
 class Block
   attr_accessor :data,:index,:prev,:data,:timestamp,:nonce,:blockchain
 
